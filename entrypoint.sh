@@ -31,10 +31,10 @@ check_config "db_host" "$HOST"
 check_config "db_port" "$PORT"
 check_config "db_user" "$USER"
 check_config "db_password" "$PASSWORD"
-check_config "admin_passwd" "$ADMIN_PASSWD"
-check_config "db_name" "$DB_NAME"
-check_config "worker" "$WORKER"
-check_config "max_cron_threads" "$CRON_WORKER"
+# check_config "admin_passwd" "$ADMIN_PASSWD"
+check_config "database" "$DB_NAME"
+check_config "workers" "$WORKER"
+check_config "max-cron-threads" "$CRON_WORKER"
 
 case "$1" in
     -- | odoo)
