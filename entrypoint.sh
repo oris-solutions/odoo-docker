@@ -27,14 +27,30 @@ function check_config() {
     DB_ARGS+=("--${param}")
     DB_ARGS+=("${value}")
 }
+
+ODOO_ARGS=()
+function check_odoo_config() {
+    param="$1"
+    value="$2"
+    if grep -q -E "^\s*\b${param}\b\s*=" "$ODOO_RC" ; then       
+        value=$(grep -E "^\s*\b${param}\b\s*=" "$ODOO_RC" |cut -d " " -f3|sed 's/["\n\r]//g')
+    fi;
+    ODOO_ARGS+=("--${param}")
+    ODOO_ARGS+=("${value}")
+}
 check_config "db_host" "$HOST"
 check_config "db_port" "$PORT"
 check_config "db_user" "$USER"
 check_config "db_password" "$PASSWORD"
-# check_config "admin_passwd" "$ADMIN_PASSWD"
-check_config "database" "$DB_NAME"
-check_config "workers" "$WORKER"
-check_config "max-cron-threads" "$CRON_WORKER"
+
+check_odoo_config "db_host" "$HOST"
+check_odoo_config "db_port" "$PORT"
+check_odoo_config "db_user" "$USER"
+check_odoo_config "db_password" "$PASSWORD"
+# check_odoo_config "admin_passwd" "$ADMIN_PASSWD"
+check_odoo_config "database" "$DB_NAME"
+check_odoo_config "workers" "$WORKER"
+check_odoo_config "max-cron-threads" "$CRON_WORKER"
 
 case "$1" in
     -- | odoo)
@@ -43,12 +59,12 @@ case "$1" in
             exec odoo "$@"
         else
             wait-for-psql.py ${DB_ARGS[@]} --timeout=30
-            exec odoo "$@" "${DB_ARGS[@]}"
+            exec odoo "$@" "${ODOO_ARGS[@]}"
         fi
         ;;
     -*)
         wait-for-psql.py ${DB_ARGS[@]} --timeout=30
-        exec odoo "$@" "${DB_ARGS[@]}"
+        exec odoo "$@" "${ODOO_ARGS[@]}"
         ;;
     *)
         exec "$@"
