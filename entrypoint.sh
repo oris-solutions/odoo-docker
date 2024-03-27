@@ -16,6 +16,7 @@ fi
 : ${DB_NAME:=${DB_ENV_POSTGRES_DB_NAME:='False'}}
 : ${WORKER:=${ENV_WORKER:=0}}
 : ${CRON_WORKER:=0}
+: ${ADDONS_PATH:=''}}
 
 DB_ARGS=()
 function check_config() {
@@ -51,6 +52,9 @@ check_odoo_config "db_password" "$PASSWORD"
 check_odoo_config "database" "$DB_NAME"
 check_odoo_config "workers" "$WORKER"
 check_odoo_config "max-cron-threads" "$CRON_WORKER"
+check_odoo_config "addons-path" "$ADDONS_PATH"
+check_odoo_config "without-demo" "True"
+
 
 case "$1" in
     -- | odoo)
