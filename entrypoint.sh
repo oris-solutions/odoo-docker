@@ -16,7 +16,7 @@ fi
 : ${DB_NAME:=${DB_ENV_POSTGRES_DB_NAME:='False'}}
 : ${WORKER:=${ENV_WORKER:=0}}
 : ${CRON_WORKER:=0}
-: ${ADDONS_PATH:=''}}
+: ${ADDONS_PATH:=''}
 
 DB_ARGS=()
 function check_config() {
