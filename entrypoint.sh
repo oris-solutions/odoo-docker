@@ -54,6 +54,7 @@ check_odoo_config "workers" "$WORKER"
 check_odoo_config "max-cron-threads" "$CRON_WORKER"
 check_odoo_config "addons-path" "$ADDONS_PATH"
 check_odoo_config "without-demo" "True"
+check_odoo_config "proxy-mode" "True"
 
 
 case "$1" in
